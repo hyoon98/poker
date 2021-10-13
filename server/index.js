@@ -14,4 +14,7 @@ server.listen(5000, () => {
 
 io.on("connection", (socket) => {
   console.log(socket.id);
+  socket.on("connect", (socket) => {
+    console.log(socket.id);
+  });
 });
