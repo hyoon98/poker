@@ -1,12 +1,22 @@
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
-
+import queryString from "query-string";
+import { useHistory } from "react-router-dom";
 function Poker({ location }) {
-  const socket = io("http://localhost:5000");
+  const history = useHistory();
+  const { name, room } = queryString.parse(location.search);
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log(`connected with id ${socket.id}`);
+    const socket = io("localhost:5000");
+    socket.emit("check-join", room, name, (res) => {
+      console.log(res.success);
+      if (!res.success) {
+        alert(res.message);
+        history.push("/");
+      }
     });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
   return (
     <h1 class="text-white mb-5 pb-3">
