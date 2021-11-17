@@ -1,0 +1,15 @@
+.board {
+  width: 500px;
+  height: 500px;
+  background-color: white;
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  border-radius: 20px;
+}
+
+.square {
+  border: 1px solid black;
+  color: black;
+}

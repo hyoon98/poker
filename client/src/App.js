@@ -1,12 +1,12 @@
 import { BrowserRouter, Route } from "react-router-dom";
-import Poker from "./components/Poker";
 import Join from "./components/Join";
+import Game from "./components/Game";
 
 function App() {
   return (
     <BrowserRouter>
       <Route path="/" exact component={Join} />
-      <Route path="/room" component={Poker} />
+      <Route path="/room" component={Game} />
     </BrowserRouter>
   );
 }

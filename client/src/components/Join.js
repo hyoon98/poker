@@ -38,7 +38,7 @@ function Join() {
 
   return (
     <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-      <h1 class="text-white mb-5 pb-3">Poker</h1>
+      <h1 class="text-white mb-5 pb-3">Tic Tac Toe</h1>
       <form>
         <div class="form-group m-2">
           <div class="row my-2">
