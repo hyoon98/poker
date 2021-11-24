@@ -38,6 +38,7 @@ function Game({ location }) {
     });
     socket.on("start", (first, status) => {
       if (status) {
+        setWon(false);
         setWaitng(false);
         setBoard(EMPTY);
         setTurn("X");
@@ -67,51 +68,90 @@ function Game({ location }) {
       for (let k = 0; k < 3; k++) {
         if (board[wins[i][k]] === turn && turn !== "") count++;
       }
-      if (count === 3);
+      if (count === 3) {
+        setWon(true);
+      }
     }
   }, [board]);
 
   return (
-    <>
+    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
       <h1 className="text-white mb-5 pb-3">
-        <div>Game</div>
+        <div>Tic-Tac-Toe</div>
       </h1>
-      <h1 className="text-white mb-5 pb-3">{turn}</h1>
-      <h1 className="text-white mb-5 pb-3">{player}</h1>
+      {!won ? (
+        <>
+          <h1 className="text-white mb-5 pb-3">{"You are: " + player}</h1>
+          <h1
+            className={
+              turn === player
+                ? "text-success mb-5 pb-3"
+                : "text-danger mb-5 pb-3"
+            }
+          >
+            {turn === player ? "Your Turn" : "Opponent Turn"}
+          </h1>
+        </>
+      ) : null}
       {!waiting ? (
-        <div className="board">
-          {board.map((square, index) => {
-            return (
-              <Square
-                handler={() => {
-                  if (square || player !== turn);
-                  else {
-                    setBoard([
-                      ...board.slice(0, index),
-                      turn,
-                      ...board.slice(index + 1),
-                    ]);
-                    console.log(currentSocket);
-                    currentSocket.emit(
-                      "move",
-                      [
+        !won ? (
+          <div className="board">
+            {board.map((square, index) => {
+              return (
+                <Square
+                  handler={() => {
+                    if (square || player !== turn || won === true);
+                    else {
+                      setBoard([
                         ...board.slice(0, index),
                         turn,
                         ...board.slice(index + 1),
-                      ],
-                      room
-                    );
-                  }
-                }}
-                value={square}
-              />
-            );
-          })}
-        </div>
+                      ]);
+                      console.log(currentSocket);
+                      currentSocket.emit(
+                        "move",
+                        [
+                          ...board.slice(0, index),
+                          turn,
+                          ...board.slice(index + 1),
+                        ],
+                        room
+                      );
+                    }
+                  }}
+                  value={square}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <h1 className="text-white mb-5 pb-3">
+              {turn !== player ? "You won!" : "You lost!"}
+            </h1>
+            <button
+              class="btn btn-primary btn-m"
+              style={{ margin: "10px" }}
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              Play Again
+            </button>
+            <button
+              style={{ margin: "10px" }}
+              onClick={() => {
+                window.open("/");
+              }}
+            >
+              Back to Lobby
+            </button>
+          </div>
+        )
       ) : (
         <Waiting rid={room} />
       )}
-    </>
+    </div>
   );
 }
 

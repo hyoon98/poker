@@ -8,7 +8,6 @@
   grid-template-rows: 1fr 1fr 1fr;
   border-radius: 20px;
 }
-
 .square {
   border: 1px solid black;
   color: black;
